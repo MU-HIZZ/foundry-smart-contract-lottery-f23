@@ -42,16 +42,16 @@ contract HelperConfig is CodeConstants, Script {
     }
 
     function getConfigByChainId(uint256 chainId) public returns (NetworkConfig memory) {
-    if (networkConfigs[chainId].vrfCoordinator != address(0)) {
-        return networkConfigs[chainId];
-    } else if (chainId == ETH_SEPOLIA_CHAIN_ID) {
-        return getSepoliaEthConfig();
-    } else if (chainId == LOCAL_CHAIN_ID) {
-        return getOrCreateAnvilEthConfig();
-    } else {
-        revert HelperConfig__InvalidChainId();
+        if (networkConfigs[chainId].vrfCoordinator != address(0)) {
+            return networkConfigs[chainId];
+        } else if (chainId == ETH_SEPOLIA_CHAIN_ID) {
+            return getSepoliaEthConfig();
+        } else if (chainId == LOCAL_CHAIN_ID) {
+            return getOrCreateAnvilEthConfig();
+        } else {
+            revert HelperConfig__InvalidChainId();
+        }
     }
-}
 
     function getConfig() public returns (NetworkConfig memory) {
         return getConfigByChainId(block.chainid);

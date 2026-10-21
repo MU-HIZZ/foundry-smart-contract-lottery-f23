@@ -21,11 +21,7 @@ contract LinkToken is ERC20 {
 
     event Transfer(address indexed from, address indexed to, uint256 value, bytes data);
 
-    function transferAndCall(
-        address _to,
-        uint256 _value,
-        bytes memory _data
-    ) public returns (bool success) {
+    function transferAndCall(address _to, uint256 _value, bytes memory _data) public returns (bool success) {
         super.transfer(_to, _value);
         if (isContract(_to)) {
             contractFallback(_to, _value, _data);
@@ -33,11 +29,7 @@ contract LinkToken is ERC20 {
         return true;
     }
 
-    function contractFallback(
-        address _to,
-        uint256 _value,
-        bytes memory _data
-    ) private {
+    function contractFallback(address _to, uint256 _value, bytes memory _data) private {
         ERC677Receiver receiver = ERC677Receiver(_to);
         receiver.onTokenTransfer(msg.sender, _value, _data);
     }
